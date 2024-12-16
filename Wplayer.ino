@@ -5,9 +5,11 @@
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* clock=*/ 32, /* data=*/ 33, /* reset=*/ U8X8_PIN_NONE);
 
 bool sd_state = false; //to the data library
+
 bool is_playing = false; //to player library
+
 int main_menu_pos = 0; //UI
-int selected_menu = 0;
+int selected_menu = 0; //UI
 
 void ChangeMenu() {
 
@@ -98,8 +100,18 @@ void MainMenu(char cmd) {
     } 
 }
 
-void SelecteMenu() {
-
+void SelectedMenu(char cmd) {
+    switch(selected_menu) {
+        case 0:
+            MainMenu(cmd);
+            break;
+        case 1:
+            break;
+        case 2;
+            break;
+        case 3;
+            break;
+    }
 }
 
 void setup() {
