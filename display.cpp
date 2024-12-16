@@ -159,37 +159,11 @@ void IpodDisplay::MenuInput(char cmd) {
 }
 
 void IpodDisplay::ChangeMainMenu() {
-    switch(main_menu_pos) {
-        case 0:
-            selected_menu = 1;
-            break;
-        case 1:
-            selected_menu = 2;
-            break;
-        case 2:
-            selected_menu = 3;
-            break;
-        case 3:
-            selected_menu = 4;
-            break;
-    }
+    selected_menu = main_menu_pos + 1;
     MenuInput('z');
 }
 
 void IpodDisplay::ChangeSettingsMenu() {
-    switch(settings_menu_pos) {
-        case 0:
-            selected_menu = 5;
-            break;
-        case 1:
-            selected_menu = 6;
-            break;
-        case 2:
-            selected_menu = 7;
-            break;
-        case 3:
-            selected_menu = 8;
-            break;
-    }
+    selected_menu = settings_menu_pos + 5;
     MenuInput('z');
 }
