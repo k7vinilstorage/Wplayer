@@ -1,10 +1,8 @@
 #include "display.h"
 
-IpodDisplay::IpodDisplay(U8G2_SSD1306_128X64_NONAME_F_HW_I2C &display, IpodData &SD, IpodPlayer &PLAY) {
+IpodDisplay::IpodDisplay(U8G2_SSD1306_128X64_NONAME_F_HW_I2C &display) {
     Wire.begin(33,32);
     u8g2 = &display;
-    data = &SD;
-    player = &PLAY;
 }
 
 
@@ -20,7 +18,7 @@ void IpodDisplay::SetupDisplay() {
 }
 
 void IpodDisplay::SdStateDraw() {
-    if(data->sd_state) {
+    if(data.sd_state) {
         u8g2->drawXBMP(112, 46, 12, 15, image_micro_sd_bits);
     }
     else {
@@ -29,7 +27,7 @@ void IpodDisplay::SdStateDraw() {
 }
 
 void IpodDisplay::PlayingIndicator() {
-    if(player->is_playing) {
+    if(player.is_playing) {
         u8g2->drawXBMP(103, 23, 15, 15, image_music_play_bits);
     }
     else {
