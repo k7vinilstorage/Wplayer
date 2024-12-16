@@ -7,9 +7,40 @@ IpodPlayer player;
 IpodDisplay display(u8g2, data, player);
 
 void setup() {
-
+    display.SetupDisplay();
 }
 
 void loop() {
-   
+    delay(1000);
+    display.MenuInput('d');
+    delay(1000);
+    display.MenuInput('d');
+    delay(1000);
+    display.MenuInput('d');
+    delay(1000);
+    display.MenuInput('u');
+    delay(1000);
+    display.MenuInput('u');
+    delay(1000);
+    display.MenuInput('u');
+    delay(1000);
+    display.MenuInput('d');
+    delay(1000);
+    display.MenuInput('e');
+    delay(1000);
+    display.MenuInput('d');
+    delay(1000);
+    display.MenuInput('d');
+    delay(1000);
+    display.MenuInput('d');
+    delay(1000);
+    display.MenuInput('u');
+    delay(1000);
+    display.MenuInput('u');
+    delay(1000);
+    display.MenuInput('u');
+    delay(1000);
+    display.MenuInput('b');
+    delay(1000);
+    display.MenuInput('u');
 }

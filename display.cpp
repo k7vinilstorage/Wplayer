@@ -124,20 +124,20 @@ void IpodDisplay::SettingsMenu(char cmd) {
             if(settings_menu_pos < 3) {
                 settings_menu_pos++;
             }
+            SettingsMenuDraw();
             break;
         case 'u':
             if(settings_menu_pos > 0) {
                 settings_menu_pos--;
             }
+            SettingsMenuDraw();
             break;
         case 'e':
             ChangeSettingsMenu();
+            SettingsMenuDraw();
             break;
         default:
             break;
-    }
-    if(cmd != 'b') {
-        SettingsMenuDraw();
     }
 }
 
