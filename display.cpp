@@ -19,7 +19,7 @@ void IpodDisplay::SetupDisplay() {
     MainMenu('z');
 }
 
-void IpodDisplay::SdDraw() {
+void IpodDisplay::SdStateDraw() {
     if(data->sd_state) {
         u8g2->drawXBMP(112, 46, 12, 15, image_micro_sd_bits);
     }
@@ -38,7 +38,7 @@ void IpodDisplay::PlayingIndicator() {
 }
 
 void IpodDisplay::SidebarDraw() {
-    SdDraw();
+    SdStateDraw();
     PlayingIndicator();
     u8g2->drawXBMP(94, 46, 14, 15, image_bluetooth_not_connected_bits);
     u8g2->drawXBMP(97, 3, 24, 13, image_battery_empty_bits);

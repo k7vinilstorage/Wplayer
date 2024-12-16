@@ -23,7 +23,7 @@ class IpodDisplay {
         int selected_menu = 0;
 
 
-        void SdDraw();
+        void SdStateDraw();
         void PlayingIndicator();
         void SidebarDraw();
         void MainMenuDraw();
