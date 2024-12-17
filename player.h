@@ -9,14 +9,19 @@
 class IpodPlayer {
     public:
         IpodPlayer();
-        void SetupPlayer();
-
-        void SetupDac();
-        void change_vol(float vol);
-        
+        void ChangeVol(float vol);
+        void PlayPause();
+        void Stop();
+        void Play(char *file);
 
         bool is_playing = false;
+        
     private:
+        void SetupPlayer();
+        void SetupDac();
+
+        int teste;
+
         WM8960 dac;
         I2SStream i2s; 
         Equilizer3Bands eq;

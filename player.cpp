@@ -54,6 +54,8 @@ void IpodPlayer::SetupPlayer() {
     cfg.channels = 2;
     cfg.sample_rate = 44100;
     decoder.begin();
+    i2s.begin(cfg);
+    i2s.end();
     copier.begin(decoder, audioFile);
 
     cfg_eq = eq.defaultConfig();
@@ -64,6 +66,40 @@ void IpodPlayer::SetupPlayer() {
     eq.begin(cfg_eq);
 }   
 
-void IpodPlayer::change_vol(float vol) {
+void IpodPlayer::ChangeVol(float vol) {
     dac.setHeadphoneVolumeDB(vol);
 }
+
+void IpodPlayer::PlayPause() {
+    if(is_playing) {
+        is_playing = false;
+        i2s.end();
+    }
+    else {
+        is_playing = true;
+        i2s.begin();
+    }
+}
+
+void IpodPlayer::Stop() {
+    if(is_playing) {
+        dac.enableDacMute();
+        is_playing = false;
+        decoder.flush();
+        decoder.end();
+        audioFile.flush();
+        audioFile.close();
+        i2s.end();
+    }
+}
+
+void IpodPlayer::Play(char *file) {
+    Stop();
+    audioFile = SD.open(file);
+    is_playing = true;
+    decoder.begin();
+    i2s.begin();
+    dac.disableDacMute();
+}
+
+

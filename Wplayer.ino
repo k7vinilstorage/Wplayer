@@ -9,7 +9,9 @@ IpodData data;
 IpodPlayer player;
 IpodDisplay display(u8g2, player, data);
 
-void setup() {}
+void setup() {
+    player.Play("/Music/");
+}
 
 void loop() {
     delay(1000);
