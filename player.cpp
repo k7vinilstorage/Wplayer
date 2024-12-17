@@ -47,10 +47,8 @@ void IpodPlayer::SetupDac() {
 }
 
 void IpodPlayer::SetupPlayer() {
-    SD.begin();
-
     auto cfg = i2s.defaultConfig(TX_MODE);
-    cfg.buffer_size = 2048;
+    cfg.buffer_size = 4096;
     cfg.bits_per_sample = 16;
     cfg.channels = 2;
     cfg.sample_rate = 44100;
@@ -100,9 +98,20 @@ void IpodPlayer::Play(char *file) {
     if(audioFile) {
         is_playing = true;
     }
+    else {
+        Serial.println("Error Opening audio file");
+    }
     decoder.begin();
     i2s.begin();
     dac.disableDacMute();
+}
+
+void IpodPlayer::StreamAudio() {
+    if(is_playing) {
+        if(!copier.copy()) {
+            //add player modes;
+        }
+    }
 }
 
 

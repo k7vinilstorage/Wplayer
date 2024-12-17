@@ -11,6 +11,7 @@ class IpodPlayer {
     public:
         IpodPlayer();
         void ChangeVol(float vol);
+        void StreamAudio();
         void PlayPause();
         void Stop();
         void Play(char *file);
@@ -18,7 +19,6 @@ class IpodPlayer {
         bool is_playing = false;
         void SetupDac();
         
-        StreamCopy copier;
         
     private:
         void SetupPlayer();
@@ -28,6 +28,7 @@ class IpodPlayer {
         Equilizer3Bands eq;
         ConfigEquilizer3Bands cfg_eq;
         EncodedAudioStream decoder;
+        StreamCopy copier;
         File audioFile;
 };
 

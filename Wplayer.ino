@@ -12,6 +12,7 @@ void setup() {
     player.SetupDac();
     player.ChangeVol(0.00);
     player.Play("/Music/CHOKE.mp3");
+    display.MenuInput('z');
 }
 
 void loop() {
@@ -48,6 +49,6 @@ void loop() {
     // delay(1000);
     // display.MenuInput('u');
 
-    player.copier.copy();
+    player.StreamAudio();
 
 }
