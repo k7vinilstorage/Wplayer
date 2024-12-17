@@ -8,15 +8,15 @@
 
 class IpodDisplay {
     public:
-        IpodDisplay(U8G2_SSD1306_128X64_NONAME_F_HW_I2C &display);
+        IpodDisplay(U8G2_SSD1306_128X64_NONAME_F_HW_I2C &display, IpodPlayer &p_class, IpodData & d_class);
 
         void SetupDisplay();
         void MenuInput(char cmd);
 
     private:
         U8G2_SSD1306_128X64_NONAME_F_HW_I2C *u8g2;
-        IpodData data;
-        IpodPlayer player;
+        IpodData *data;
+        IpodPlayer *player;
 
         int main_menu_pos = 0;
         int settings_menu_pos = 0;
