@@ -9,6 +9,8 @@
 class IpodPlayer {
     public:
         IpodPlayer();
+        void SetupPlayer();
+
         void SetupDac();
         void change_vol(float vol);
         
@@ -16,8 +18,12 @@ class IpodPlayer {
         bool is_playing = false;
     private:
         WM8960 dac;
-        
-        I
+        I2SStream i2s; 
+        Equilizer3Bands eq;
+        ConfigEquilizer3Bands cfg_eq;
+        EncodedAudioStream decoder;
+        StreamCopy copier;
+        File audioFile;
 };
 
 

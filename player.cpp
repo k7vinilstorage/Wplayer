@@ -1,8 +1,12 @@
 #include "player.h"
 
-IpodPlayer::IpodPlayer() {}
+IpodPlayer::IpodPlayer() : eq(i2s), decoder(&eq, new MP3DecoderHelix()), copier(i2s, eq) {
+    SetupDac();
+    SetupPlayer();
+}
 
 void IpodPlayer::SetupDac() {
+
     if (dac.begin() == false) {
         while(1) {
             Serial.println("Error starting up dac");
@@ -43,6 +47,23 @@ void IpodPlayer::SetupDac() {
     dac.setHeadphoneVolumeDB(-25.00);
 }
 
+void IpodPlayer::SetupPlayer() {
+    auto cfg = i2s.defaultConfig(TX_MODE);
+    cfg.buffer_size = 2048;
+    cfg.bits_per_sample = 16;
+    cfg.channels = 2;
+    cfg.sample_rate = 44100;
+    decoder.begin();
+    copier.begin(decoder, audioFile);
+
+    cfg_eq = eq.defaultConfig();
+    cfg_eq.setAudioInfo(cfg); // use channels, bits_per_sample and sample_rate from kit
+    cfg_eq.gain_low = 1; 
+    cfg_eq.gain_medium = 1;
+    cfg_eq.gain_high = 1;
+    eq.begin(cfg_eq);
+}   
+
 void IpodPlayer::change_vol(float vol) {
-  dac.setHeadphoneVolumeDB(vol);
+    dac.setHeadphoneVolumeDB(vol);
 }
