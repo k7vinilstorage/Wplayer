@@ -5,6 +5,7 @@
 #include <SparkFun_WM8960_Arduino_Library.h>
 #include "AudioTools.h"
 #include "AudioCodecs/CodecMP3Helix.h"
+#include <Arduino.h>
 
 class IpodPlayer {
     public:
@@ -15,19 +16,18 @@ class IpodPlayer {
         void Play(char *file);
 
         bool is_playing = false;
+        void SetupDac();
+        
+        StreamCopy copier;
         
     private:
         void SetupPlayer();
-        void SetupDac();
-
-        int teste;
 
         WM8960 dac;
         I2SStream i2s; 
         Equilizer3Bands eq;
         ConfigEquilizer3Bands cfg_eq;
         EncodedAudioStream decoder;
-        StreamCopy copier;
         File audioFile;
 };
 

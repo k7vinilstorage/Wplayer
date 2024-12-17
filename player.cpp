@@ -1,7 +1,6 @@
 #include "player.h"
 
 IpodPlayer::IpodPlayer() : eq(i2s), decoder(&eq, new MP3DecoderHelix()), copier(i2s, eq) {
-    SetupDac();
     SetupPlayer();
 }
 
@@ -48,6 +47,8 @@ void IpodPlayer::SetupDac() {
 }
 
 void IpodPlayer::SetupPlayer() {
+    SD.begin();
+
     auto cfg = i2s.defaultConfig(TX_MODE);
     cfg.buffer_size = 2048;
     cfg.bits_per_sample = 16;
@@ -96,7 +97,9 @@ void IpodPlayer::Stop() {
 void IpodPlayer::Play(char *file) {
     Stop();
     audioFile = SD.open(file);
-    is_playing = true;
+    if(audioFile) {
+        is_playing = true;
+    }
     decoder.begin();
     i2s.begin();
     dac.disableDacMute();
