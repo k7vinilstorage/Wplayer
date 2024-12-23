@@ -11,7 +11,7 @@ class IpodPlayer {
     public:
         IpodPlayer();
         void ChangeVol(float vol);
-        void StreamAudio();
+        bool StreamAudio();
         void PlayPause();
         void Stop();
         void Play(char *file);

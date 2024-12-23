@@ -106,11 +106,18 @@ void IpodPlayer::Play(char *file) {
     dac.disableDacMute();
 }
 
-void IpodPlayer::StreamAudio() {
+bool IpodPlayer::StreamAudio() {
     if(is_playing) {
         if(!copier.copy()) {
+            return false;
             //add player modes;
         }
+        else{
+            return true;
+        }
+    }
+    else {
+      return false;
     }
 }
 

@@ -12,6 +12,7 @@ class IpodData {
         IpodData();
         void UpDatabase(const char *dirname, uint8_t levels);
         void DbInit(const char *path);
+        char *RequestItem(int id, char request);
 
         bool sd_state = false;
         float cardSize;
@@ -20,7 +21,6 @@ class IpodData {
     private:
         
         void AddItem(int id, const char *name, const char *artist, const char *album, const char *path);
-        char *RequestItem(int id, char request);
         void CountSongs();
         void DeleteDatabase();
 
