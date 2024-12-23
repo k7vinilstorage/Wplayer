@@ -13,42 +13,9 @@ void setup() {
     player.ChangeVol(0.00);
     player.Play("/Music/CHOKE.mp3");
     display.MenuInput('z');
+    data.DbInit("/sd/music.db");
 }
 
 void loop() {
-    // delay(1000);
-    // display.MenuInput('d');
-    // delay(1000);
-    // display.MenuInput('d');
-    // delay(1000);
-    // display.MenuInput('d');
-    // delay(1000);
-    // display.MenuInput('u');
-    // delay(1000);
-    // display.MenuInput('u');
-    // delay(1000);
-    // display.MenuInput('u');
-    // delay(1000);
-    // display.MenuInput('d');
-    // delay(1000);
-    // display.MenuInput('e');
-    // delay(1000);
-    // display.MenuInput('d');
-    // delay(1000);
-    // display.MenuInput('d');
-    // delay(1000);
-    // display.MenuInput('d');
-    // delay(1000);
-    // display.MenuInput('u');
-    // delay(1000);
-    // display.MenuInput('u');
-    // delay(1000);
-    // display.MenuInput('u');
-    // delay(1000);
-    // display.MenuInput('b');
-    // delay(1000);
-    // display.MenuInput('u');
-
     player.StreamAudio();
-
 }
