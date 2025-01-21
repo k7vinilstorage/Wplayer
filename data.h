@@ -11,6 +11,7 @@ class IpodData {
     public:
         IpodData();
         void UpDatabase(const char *dirname, uint8_t levels);
+        void SdInit();
         void DbInit(const char *path);
         char *RequestItem(int id, char request);
 

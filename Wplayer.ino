@@ -6,20 +6,22 @@ IpodData data;
 IpodPlayer player;
 IpodDisplay display(u8g2, player, data);
 
-int id = 0;
+int id = 1;
 
 void setup() {
     Serial.begin(115200);
     display.SetupDisplay();
     player.SetupDac();
-    player.ChangeVol(0.00);
-    display.MenuInput('z');
+    player.ChangeVol(-35.00);
+    data.SdInit();
     data.DbInit("/sd/music.db");
+    display.MenuInput('z');
 }
 
 void loop() {
     if(!player.StreamAudio()) {
-        player.Play(data.RequestItem(1, 'P'));
+        player.Play(data.RequestItem(id, 'P'));
+        display.MenuInput('z');
         id++;
     }
 }

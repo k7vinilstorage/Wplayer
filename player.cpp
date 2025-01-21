@@ -43,7 +43,6 @@ void IpodPlayer::SetupDac() {
     dac._writeRegisterBit(0x06, 3, 1);
     dac.enable3d();
     dac.set3dDepth(7);
-    dac.setHeadphoneVolumeDB(-25.00);
 }
 
 void IpodPlayer::SetupPlayer() {

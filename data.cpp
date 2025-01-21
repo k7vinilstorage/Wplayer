@@ -1,7 +1,9 @@
 #include "data.h"
 
-IpodData::IpodData() {
-    if(!SD.begin()) {
+IpodData::IpodData() {}
+
+void IpodData::SdInit() {
+  if(!SD.begin()) {
         Serial.println("Error Starting SD");
     }
     else {
@@ -14,8 +16,6 @@ IpodData::IpodData() {
         Serial.println(cardFree);
         sd_state = true;
   }
-
-  //DbInit("/sd/music.db");
 }
 
 void IpodData::UpDatabase(const char *dirname, uint8_t levels) {
