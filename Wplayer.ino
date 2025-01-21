@@ -16,6 +16,7 @@ void setup() {
     data.SdInit();
     data.DbInit("/sd/music.db");
     display.MenuInput('z');
+    display.MenuInput('e');
 }
 
 void loop() {

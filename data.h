@@ -18,6 +18,7 @@ class IpodData {
         bool sd_state = false;
         float cardSize;
         float cardFree;
+        int song_count = 0;
         
     private:
         
@@ -29,7 +30,6 @@ class IpodData {
         mp3_id3_tags tags;
         char *err_msg = 0;
         int rc;
-        int song_count = 0;
         char *song_name[15];
         char *song_artist[15];
         char *song_path[15];

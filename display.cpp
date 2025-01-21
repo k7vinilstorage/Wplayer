@@ -147,6 +147,7 @@ void IpodDisplay::MenuInput(char cmd) {
             MainMenu(cmd);
             break;
         case 1:
+            MusicMenu(cmd);
             break;
         case 2:
             SettingsMenu(cmd);
@@ -160,7 +161,7 @@ void IpodDisplay::MenuInput(char cmd) {
 
 void IpodDisplay::MusicMenuDraw() {
     u8g2->clearBuffer();
-    u8g2->drawXBMP(121, selected_music, 4, 7, image_ButtonLeft__copy__bits);
+    u8g2->drawXBMP(121, sel_pos, 4, 7, image_ButtonLeft__copy__bits);
     u8g2->drawStr(3, 13, data->RequestItem(music_menu_pos, 'N'));
     u8g2->drawStr(3, 25, data->RequestItem((music_menu_pos + 1), 'N'));
     u8g2->drawStr(3, 37, data->RequestItem((music_menu_pos + 2), 'N'));
@@ -169,8 +170,52 @@ void IpodDisplay::MusicMenuDraw() {
     u8g2->sendBuffer();
 }
 
-void IpodDisplay::MusicMenu() {
-
+void IpodDisplay::MusicMenu(char cmd) {
+    switch(cmd) {
+        case 'z':
+            MusicMenuDraw();
+            break;
+        case 'd':
+            if(music_select < (data->song_count - 1)) {
+                music_select++;
+                if(sel_pos < 54) {
+                sel_pos = sel_pos + 12;
+                }
+                else {
+                music_menu_pos++;
+                }
+            }
+            Serial.print("sel: ");
+            Serial.println(music_select);
+            Serial.print("pos: ");
+            Serial.println(music_menu_pos);
+            MusicMenuDraw();
+            break;
+        case 'u':
+            if(music_select > 0) {
+                music_select--;
+                if(sel_pos > 6) {
+                sel_pos = sel_pos - 12;
+                }
+                else {
+                music_menu_pos--;
+                }
+            }
+            Serial.print("sel: ");
+            Serial.println(music_select);
+            Serial.print("pos: ");
+            Serial.println(music_menu_pos);
+            MusicMenuDraw();
+            break;
+        case 'e':
+            break;
+        case 'b':
+            selected_menu = 0;
+            MenuInput('z');
+            break;
+    }
+  
+    MusicMenuDraw();
 }
 
 void IpodDisplay::ChangeMainMenu() {
