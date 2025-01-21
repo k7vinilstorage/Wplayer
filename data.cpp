@@ -73,6 +73,11 @@ void IpodData::DbInit(const char *path) {
         sqlite3_free(err_msg);
         sqlite3_close(db);
     }
+    CountSongs();
+    for(int i = 0; i < song_count; i++) {
+        songList.push_back(RequestItem(i, 'N'));
+        Serial.println(songList[i]);
+    }
 }
 
 void IpodData::AddItem(int id, const char *name, const char *artist, const char *album, const char *path) {

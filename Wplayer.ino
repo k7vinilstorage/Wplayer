@@ -10,13 +10,12 @@ int id = 1;
 
 void setup() {
     Serial.begin(115200);
+    data.SdInit();
+    data.DbInit("/sd/music.db");
     display.SetupDisplay();
     player.SetupDac();
     player.ChangeVol(-35.00);
-    data.SdInit();
-    data.DbInit("/sd/music.db");
     display.MenuInput('z');
-    display.MenuInput('e');
 }
 
 void loop() {

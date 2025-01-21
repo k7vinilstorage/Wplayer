@@ -5,6 +5,7 @@
 #include <SD.h>
 #include <SPI.h>
 #include <string.h>
+#include <vector>
 #include "mp3_id3_tags.h"
 
 class IpodData {
@@ -15,10 +16,13 @@ class IpodData {
         void DbInit(const char *path);
         char *RequestItem(int id, char request);
 
+        std::vector<const char*> songList;
+
         bool sd_state = false;
         float cardSize;
         float cardFree;
         int song_count = 0;
+
         
     private:
         
