@@ -20,7 +20,9 @@ class IpodDisplay {
 
         int main_menu_pos = 0;
         int settings_menu_pos = 0;
+        int music_menu_pos = 0;
         int selected_menu = 0;
+        int selected_music = 0;
 
 
         void SdStateDraw();
@@ -32,6 +34,8 @@ class IpodDisplay {
         void SettingsMenu(char cmd);
         void ChangeMainMenu();
         void ChangeSettingsMenu();
+        void MusicMenuDraw();
+        void MusicMenu();
 };
 
 

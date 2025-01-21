@@ -158,6 +158,21 @@ void IpodDisplay::MenuInput(char cmd) {
     }
 }
 
+void IpodDisplay::MusicMenuDraw() {
+    u8g2->clearBuffer();
+    u8g2->drawXBMP(121, selected_music, 4, 7, image_ButtonLeft__copy__bits);
+    u8g2->drawStr(3, 13, data->RequestItem(music_menu_pos, 'N'));
+    u8g2->drawStr(3, 25, data->RequestItem((music_menu_pos + 1), 'N'));
+    u8g2->drawStr(3, 37, data->RequestItem((music_menu_pos + 2), 'N'));
+    u8g2->drawStr(3, 49, data->RequestItem((music_menu_pos + 3), 'N'));
+    u8g2->drawStr(3, 61, data->RequestItem((music_menu_pos + 4), 'N'));
+    u8g2->sendBuffer();
+}
+
+void IpodDisplay::MusicMenu() {
+
+}
+
 void IpodDisplay::ChangeMainMenu() {
     selected_menu = main_menu_pos + 1;
     MenuInput('z');
