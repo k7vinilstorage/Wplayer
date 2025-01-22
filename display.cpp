@@ -16,7 +16,6 @@ void IpodDisplay::SetupDisplay() {
     u8g2->drawXBMP(1, 0, 127, 64, ipod_w);
     u8g2->sendBuffer();
     delay(2000);
-    MainMenu('z');
 }
 
 void IpodDisplay::SdStateDraw() {
