@@ -13,6 +13,8 @@ class IpodDisplay {
         void SetupDisplay();
         void MenuInput(char cmd);
 
+        int music_select = 0;
+
     private:
         U8G2_SSD1306_128X64_NONAME_F_HW_I2C *u8g2;
         IpodData *data;
@@ -22,8 +24,11 @@ class IpodDisplay {
         int settings_menu_pos = 0;
         int music_menu_pos = 0;
         int selected_menu = 0;
-        int music_select = 0;
         int sel_pos = 6;
+
+        char *song_path;
+        char *song_name;
+        char *song_artist;
 
 
         void SdStateDraw();
@@ -35,6 +40,8 @@ class IpodDisplay {
         void SettingsMenu(char cmd);
         void MusicMenuDraw();
         void MusicMenu(char cmd);
+        void PlayMenuDraw();
+        void PlayMenu(char cmd);
         void ChangeMainMenu();
         void ChangeSettingsMenu();
 };

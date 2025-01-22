@@ -141,6 +141,10 @@ void IpodDisplay::SettingsMenu(char cmd) {
 }
 
 void IpodDisplay::MenuInput(char cmd) {
+    if(selected_menu != 6 && (cmd == n || cmd == a)) {
+      
+    }
+
     switch(selected_menu) {
         case 0:
             MainMenu(cmd);
@@ -152,6 +156,7 @@ void IpodDisplay::MenuInput(char cmd) {
             SettingsMenu(cmd);
             break;
         case 3:
+            PlayMenu(cmd);
             break;
         case 4:
             break;
@@ -175,8 +180,8 @@ void IpodDisplay::MusicMenu(char cmd) {
             MusicMenuDraw();
             break;
         case 'd':
-            if(music_select < (data->song_count - 1)) {
-                music_select++;
+            if(player->music_select < (data->song_count - 1)) {
+                player->music_select++;
                 if(sel_pos < 54) {
                 sel_pos = sel_pos + 12;
                 }
@@ -185,14 +190,14 @@ void IpodDisplay::MusicMenu(char cmd) {
                 }
             }
             Serial.print("sel: ");
-            Serial.println(music_select);
+            Serial.println(player->music_select);
             Serial.print("pos: ");
             Serial.println(music_menu_pos);
             MusicMenuDraw();
             break;
         case 'u':
-            if(music_select > 0) {
-                music_select--;
+            if(player->music_select > 0) {
+                player->music_select--;
                 if(sel_pos > 6) {
                 sel_pos = sel_pos - 12;
                 }
@@ -201,20 +206,66 @@ void IpodDisplay::MusicMenu(char cmd) {
                 }
             }
             Serial.print("sel: ");
-            Serial.println(music_select);
+            Serial.println(player->music_select);
             Serial.print("pos: ");
             Serial.println(music_menu_pos);
             MusicMenuDraw();
             break;
         case 'e':
+            free(song_path);
+            player->playing_song = player->music_select;
+            song_path = data->RequestItem(player->music_select, 'P');
+            player->Play(song_path);
+            selected_menu = 3;
+            MenuInput('z');
             break;
         case 'b':
             selected_menu = 0;
             MenuInput('z');
             break;
     }
-  
-    MusicMenuDraw();
+}
+
+void IpodDisplay::PlayMenuDraw() {
+  u8g2->clearBuffer();
+  u8g2->setFontMode(1);
+  u8g2->drawLine(127, 19, 0, 19);
+  u8g2->setFont(u8g2_font_6x13_tr);
+  free(song_name);
+  free(song_artist);
+  song_name = data->RequestItem(player->playing_song, 'N');
+  song_artist = data->RequestItem(player->playing_song, 'A');
+  u8g2->drawStr(1, 37, song_name);
+  u8g2->drawStr(1, 51, song_artist);
+  u8g2->setFont(u8g2_font_6x10_tr);
+  u8g2->drawStr(31, 13, "Now Playing");
+  if(player->is_playing) {
+    u8g2->drawXBMP(2, 2, 15, 15, image_music_play_bits);
+  }
+  else {
+    u8g2->drawXBMP(2, 2, 12, 15, image_music_pause_bits);
+  }
+  u8g2->sendBuffer();
+}
+
+void IpodDisplay::PlayMenu(char cmd) {
+    switch(cmd) {
+        case 'z':
+            PlayMenuDraw();
+            break;
+        case 'b':
+            selected_menu = 0;
+            MenuInput('z');
+            break;
+        case 'u':
+            // vol = vol + 1;
+            // ChangeVol(vol);
+            break;
+        case 'd':
+            // vol = vol - 1;
+            // ChangeVol(vol);
+            break;
+    }
 }
 
 void IpodDisplay::ChangeMainMenu() {

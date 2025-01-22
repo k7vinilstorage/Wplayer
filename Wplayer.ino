@@ -12,7 +12,6 @@ TaskHandle_t stream;
 
 char input;
 
-int id = 1;
 
 void setup() {
     Serial.begin(115200);
@@ -20,7 +19,7 @@ void setup() {
     data.SdInit();
     data.DbInit("/sd/music.db");
     player.SetupDac();
-    player.ChangeVol(-35.00);
+    player.ChangeVol(0.00);
     inputs.InitInputs();
     display.MenuInput('z');
 
@@ -32,15 +31,21 @@ void stream_task(void * pvParameters) {
   // Serial.println(xPortGetCoreID());
   
   for(;;){
-    if(!player.StreamAudio()) {
-        player.Play(data.RequestItem(id, 'P'));
-        display.MenuInput('z');
-        id++;
+    if(player.is_playing) {
+      if(!player.StreamAudio()) {
+          player.Play(data.RequestItem(display.music_select, 'P'));
+          display.MenuInput('z');
+      }
+    }
+    else {
+        vTaskDelay(10 / portTICK_PERIOD_MS);
     }
   } 
 }
 
 void loop() {
+    delay(10);
     input = inputs.DetecctInput();
     display.MenuInput(input);
+    Serial.println(esp_get_free_heap_size());
 }

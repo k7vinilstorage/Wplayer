@@ -17,6 +17,8 @@ class IpodPlayer {
         void Play(char *file);
 
         bool is_playing = false;
+        int playing_song;
+
         void SetupDac();
         
         
