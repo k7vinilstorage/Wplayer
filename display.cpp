@@ -140,12 +140,7 @@ void IpodDisplay::SettingsMenu(char cmd) {
     }
 }
 
-void IpodDisplay::MenuInput(char cmd) {
-    if(selected_menu != 6 && (cmd == n || cmd == a)) {
-      
-    }
-
-    switch(selected_menu) {
+void IpodDisplay::MenuInput(char cmd) {    switch(selected_menu) {
         case 0:
             MainMenu(cmd);
             break;
@@ -180,8 +175,8 @@ void IpodDisplay::MusicMenu(char cmd) {
             MusicMenuDraw();
             break;
         case 'd':
-            if(player->music_select < (data->song_count - 1)) {
-                player->music_select++;
+            if(music_select < (data->song_count - 1)) {
+                music_select++;
                 if(sel_pos < 54) {
                 sel_pos = sel_pos + 12;
                 }
@@ -190,14 +185,14 @@ void IpodDisplay::MusicMenu(char cmd) {
                 }
             }
             Serial.print("sel: ");
-            Serial.println(player->music_select);
+            Serial.println(music_select);
             Serial.print("pos: ");
             Serial.println(music_menu_pos);
             MusicMenuDraw();
             break;
         case 'u':
-            if(player->music_select > 0) {
-                player->music_select--;
+            if(music_select > 0) {
+                music_select--;
                 if(sel_pos > 6) {
                 sel_pos = sel_pos - 12;
                 }
@@ -206,15 +201,15 @@ void IpodDisplay::MusicMenu(char cmd) {
                 }
             }
             Serial.print("sel: ");
-            Serial.println(player->music_select);
+            Serial.println(music_select);
             Serial.print("pos: ");
             Serial.println(music_menu_pos);
             MusicMenuDraw();
             break;
         case 'e':
             free(song_path);
-            player->playing_song = player->music_select;
-            song_path = data->RequestItem(player->music_select, 'P');
+            player->playing_song = music_select;
+            song_path = data->RequestItem(music_select, 'P');
             player->Play(song_path);
             selected_menu = 3;
             MenuInput('z');
