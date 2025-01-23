@@ -34,7 +34,7 @@ void stream_task(void * pvParameters) {
   for(;;){
     if(player.is_playing) {
       if(!player.StreamAudio()) {
-          player.Play(data.RequestItem(display.music_select, 'P'));
+          display.MenuInput('n');
           display.MenuInput('z');
       }
     }
