@@ -141,42 +141,47 @@ void IpodDisplay::SettingsMenu(char cmd) {
 }
 
 void IpodDisplay::MenuInput(char cmd) {
-    if(selected_menu != 6 && (cmd == 'n' || cmd == 'a') && player->is_playing) {
-        if(cmd == 'n') {
-            if(player->playing_song < data->song_count) {
-                player->playing_song++;
-                free(song_path);
-                song_path = data->RequestItem(player->playing_song, 'P');
-                player->Play(song_path);
-                MenuInput('z');
+    if(cmd == 'p') {
+        player->PlayPause();
+    }
+    else {
+        if(selected_menu != 6 && (cmd == 'n' || cmd == 'a') && player->is_playing) {
+            if(cmd == 'n') {
+                if(player->playing_song < data->song_count) {
+                    player->playing_song++;
+                    free(song_path);
+                    song_path = data->RequestItem(player->playing_song, 'P');
+                    player->Play(song_path);
+                    MenuInput('z');
+                }
+            }
+            else {
+                if(player->playing_song > 0) {
+                    player->playing_song--;
+                    free(song_path);
+                    song_path = data->RequestItem(player->playing_song, 'P');
+                    player->Play(song_path);
+                    MenuInput('z');
+                }
             }
         }
         else {
-            if(player->playing_song > 0) {
-                player->playing_song--;
-                free(song_path);
-                song_path = data->RequestItem(player->playing_song, 'P');
-                player->Play(song_path);
-                MenuInput('z');
+            switch(selected_menu) {
+                case 0:
+                    MainMenu(cmd);
+                    break;
+                case 1:
+                    MusicMenu(cmd);
+                    break;
+                case 2:
+                    SettingsMenu(cmd);
+                    break;
+                case 3:
+                    PlayMenu(cmd);
+                    break;
+                case 4:
+                    break;
             }
-        }
-    }
-    else {
-        switch(selected_menu) {
-            case 0:
-                MainMenu(cmd);
-                break;
-            case 1:
-                MusicMenu(cmd);
-                break;
-            case 2:
-                SettingsMenu(cmd);
-                break;
-            case 3:
-                PlayMenu(cmd);
-                break;
-            case 4:
-                break;
         }
     }
 }
