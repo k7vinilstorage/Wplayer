@@ -10,7 +10,7 @@
 class IpodPlayer {
     public:
         IpodPlayer();
-        void ChangeVol(float vol);
+        void ChangeVol();
         bool StreamAudio();
         void PlayPause();
         void Stop();
@@ -20,6 +20,7 @@ class IpodPlayer {
         int playing_song;
 
         void SetupDac();
+        float vol;
         
         
     private:

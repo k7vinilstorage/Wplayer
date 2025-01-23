@@ -19,7 +19,8 @@ void setup() {
     data.SdInit();
     data.DbInit("/sd/music.db");
     player.SetupDac();
-    player.ChangeVol(0.00);
+    player.vol = -35.00;
+    player.ChangeVol();
     inputs.InitInputs();
     display.MenuInput('z');
 

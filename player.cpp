@@ -64,7 +64,7 @@ void IpodPlayer::SetupPlayer() {
     eq.begin(cfg_eq);
 }   
 
-void IpodPlayer::ChangeVol(float vol) {
+void IpodPlayer::ChangeVol() {
     dac.setHeadphoneVolumeDB(vol);
 }
 
