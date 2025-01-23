@@ -71,11 +71,13 @@ void IpodPlayer::ChangeVol() {
 void IpodPlayer::PlayPause() {
     if(is_playing) {
         is_playing = false;
+        dac.enableDacMute();
         i2s.end();
     }
     else {
         is_playing = true;
         i2s.begin();
+        dac.disableDacMute();
     }
 }
 
