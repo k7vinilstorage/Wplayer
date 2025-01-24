@@ -65,6 +65,12 @@ void IpodPlayer::SetupPlayer() {
 }   
 
 void IpodPlayer::ChangeVol() {
+    if(vol < -74.00) {
+        vol = -74.00;
+    }
+    if(vol > 0.00) {
+        vol = 0.00;
+    }
     dac.setHeadphoneVolumeDB(vol);
 }
 

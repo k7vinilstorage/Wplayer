@@ -32,6 +32,7 @@ class IpodDisplay {
         char *song_artist;
 
         void SdStateDraw();
+        void VolStateDraw();
         void PlayingIndicator();
         void SidebarDraw();
         void MainMenuDraw();

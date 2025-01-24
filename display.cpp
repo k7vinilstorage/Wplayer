@@ -27,6 +27,24 @@ void IpodDisplay::SdStateDraw() {
     }
 }
 
+void IpodDisplay::VolStateDraw() {
+    if(player->vol < -58) {
+        u8g2->drawXBM(110, 3, 15, 16, image_network_bits);
+    }
+    else if(player->vol < -42) {
+        u8g2->drawXBM(110, 3, 15, 16, image_network_1_bar_bits);
+    }
+    else if(player->vol < -26) {
+        u8g2->drawXBM(110, 3, 15, 16, image_network_2_bars_bits);
+    }
+    else if(player->vol < -10) {
+        u8g2->drawXBM(110, 3, 15, 16, image_network_3_bars_bits);
+    }
+    else {
+        u8g2->drawXBM(110, 3, 15, 16, image_network_4_bars_bits);
+    }
+}
+
 void IpodDisplay::PlayingIndicator() {
     if(player->is_playing) {
         u8g2->drawXBMP(103, 23, 15, 15, image_music_play_bits);
@@ -291,6 +309,7 @@ void IpodDisplay::PlayMenuDraw() {
   else {
     u8g2->drawXBMP(2, 2, 12, 15, image_music_pause_bits);
   }
+  VolStateDraw();
   u8g2->sendBuffer();
 }
 
@@ -306,10 +325,12 @@ void IpodDisplay::PlayMenu(char cmd) {
         case 'u':
             player->vol++;
             player->ChangeVol();
+            PlayMenuDraw();
             break;
         case 'd':
             player->vol--;
             player->ChangeVol();
+            PlayMenuDraw();
             break;
     }
 }
