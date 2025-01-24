@@ -107,6 +107,14 @@ void IpodPlayer::Play(char *file) {
     dac.disableDacMute();
 }
 
+void IpodPlayer::EQUpdate() {
+    eq.end();
+    cfg_eq.gain_low = eq_settings[0];
+    cfg_eq.gain_medium = eq_settings[1];
+    cfg_eq.gain_high = eq_settings[2];
+    eq.begin(cfg_eq);
+}
+
 bool IpodPlayer::StreamAudio() {
     if(is_playing) {
         if(!copier.copy()) {

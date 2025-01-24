@@ -20,7 +20,10 @@ class IpodPlayer {
         int playing_song;
 
         void SetupDac();
+        void EQUpdate();
         float vol;
+        float eq_settings[3]  = {1, 1, 1};
+        int eq_select = 0; 
         
         
     private:
@@ -28,11 +31,11 @@ class IpodPlayer {
 
         WM8960 dac;
         I2SStream i2s; 
-        Equilizer3Bands eq;
-        ConfigEquilizer3Bands cfg_eq;
         EncodedAudioStream decoder;
         StreamCopy copier;
         File audioFile;
+        Equilizer3Bands eq;
+        ConfigEquilizer3Bands cfg_eq;
 };
 
 

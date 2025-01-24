@@ -22,6 +22,7 @@ class IpodDisplay {
 
         int main_menu_pos = 0;
         int settings_menu_pos = 0;
+        int eq_menu_pos = 0;
         int music_menu_pos = 0;
         int selected_menu = 0;
         int sel_pos = 6;
@@ -29,7 +30,6 @@ class IpodDisplay {
         char *song_path;
         char *song_name;
         char *song_artist;
-
 
         void SdStateDraw();
         void PlayingIndicator();
@@ -42,6 +42,10 @@ class IpodDisplay {
         void MusicMenu(char cmd);
         void PlayMenuDraw();
         void PlayMenu(char cmd);
+        void AboutMenuDraw();
+        void AboutMenu(char cmd);
+        void EQMenuDraw();
+        void EQMenu(char cmd);
         void ChangeMainMenu();
         void ChangeSettingsMenu();
 };

@@ -12,6 +12,7 @@ class IpodData {
     public:
         IpodData();
         void UpDatabase(const char *dirname, uint8_t levels);
+        void DeleteDatabase();
         void SdInit();
         void DbInit(const char *path);
         char *RequestItem(int id, char request);
@@ -28,7 +29,6 @@ class IpodData {
         
         void AddItem(int id, const char *name, const char *artist, const char *album, const char *path);
         void CountSongs();
-        void DeleteDatabase();
 
         sqlite3 *db;
         mp3_id3_tags tags;

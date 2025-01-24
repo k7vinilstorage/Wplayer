@@ -115,6 +115,9 @@ void IpodDisplay::SettingsMenuDraw() {
 
 void IpodDisplay::SettingsMenu(char cmd) {
     switch(cmd) {
+        case 'z':
+            SettingsMenuDraw();
+            break;
         case 'b':
             selected_menu = 0;
             MenuInput('z');
@@ -133,7 +136,6 @@ void IpodDisplay::SettingsMenu(char cmd) {
             break;
         case 'e':
             ChangeSettingsMenu();
-            SettingsMenuDraw();
             break;
         default:
             break;
@@ -143,9 +145,10 @@ void IpodDisplay::SettingsMenu(char cmd) {
 void IpodDisplay::MenuInput(char cmd) {
     if(cmd == 'p') {
         player->PlayPause();
+        MenuInput('z');
     }
     else {
-        if(selected_menu != 6 && (cmd == 'n' || cmd == 'a') && player->is_playing) {
+        if(selected_menu != 7 && (cmd == 'n' || cmd == 'a') && player->is_playing) {
             if(cmd == 'n') {
                 if(player->playing_song < data->song_count) {
                     player->playing_song++;
@@ -180,6 +183,26 @@ void IpodDisplay::MenuInput(char cmd) {
                     PlayMenu(cmd);
                     break;
                 case 4:
+                    break;
+                case 5:
+                    AboutMenu(cmd);
+                    break;
+                case 6:
+                    selected_menu = 2;
+                    break;
+                case 7:
+                    EQMenu(cmd);
+                    break;
+                case 8:
+                    u8g2->clearBuffer();
+                    u8g2->setFontMode(1);
+                    u8g2->setBitmapMode(1);
+                    u8g2->drawXBMP(46, 8, 36, 29, image_Restoring_bits);
+                    u8g2->drawXBMP(16, 45, 95, 11, update);
+                    u8g2->sendBuffer();
+                    data->DeleteDatabase();
+                    data->UpDatabase("/Music", 2);
+                    ESP.restart();
                     break;
             }
         }
@@ -287,6 +310,96 @@ void IpodDisplay::PlayMenu(char cmd) {
         case 'd':
             player->vol--;
             player->ChangeVol();
+            break;
+    }
+}
+
+void IpodDisplay::AboutMenu(char cmd) {
+    if(cmd == 'b') {
+        selected_menu = 2;
+        MenuInput('z');
+    }
+    else {
+        u8g2->clearBuffer();
+        u8g2->setFont(u8g2_font_6x13_tr);
+        u8g2->drawStr(35, 11, "About Wpod");
+        u8g2->drawLine(0, 14, 127, 14);
+        u8g2->drawStr(3, 27, "Songs");
+        u8g2->drawStr(3, 59, "Version");
+        u8g2->drawStr(3, 43, "Capacity");
+        u8g2->setCursor(58, 45);
+        u8g2->print(data->cardFree);
+        u8g2->setCursor(96, 45);
+        u8g2->print(data->cardSize);
+        u8g2->setCursor(107, 29);
+        u8g2->print(data->song_count);
+        u8g2->drawStr(105, 60, "1.0");
+        u8g2->drawLine(89, 44, 93, 36);
+        u8g2->sendBuffer();
+    }
+}
+
+void IpodDisplay::EQMenuDraw() {
+    u8g2->clearBuffer();
+    u8g2->setFont(u8g2_font_6x13_tr);
+    u8g2->drawStr(57, 11, "EQ");
+    u8g2->drawLine(0, 14, 127, 14);
+    u8g2->drawStr(1, 47, "Middle");
+    u8g2->drawStr(1, 33, "Bass");
+    u8g2->drawStr(1, 61, "Treble");
+    u8g2->setFont(u8g2_font_4x6_tr);
+    u8g2->drawStr(45, 24, "-1.5     0     1.5");
+    u8g2->drawXBMP(52, 42, 61, 3, eq_set);
+    u8g2->drawLine((72 + (player->eq_settings[0] * 10)), 26, (72 + (player->eq_settings[0] * 10)), 32);
+    u8g2->drawXBMP(52, 28, 61, 3, eq_set);
+    u8g2->drawLine((72 + (player->eq_settings[1] * 10)), 40, (72 + (player->eq_settings[1] * 10)), 46);
+    u8g2->drawLine((72 + (player->eq_settings[2] * 10)), 53, (72 + (player->eq_settings[2] * 10)), 59);
+    u8g2->drawXBMP(52, 55, 61, 3, eq_set);
+    switch(player->eq_select) {
+        case 0:
+            u8g2->drawXBMP(121, 26, 4, 7, image_ButtonLeft__copy__bits);
+            break;
+        case 1:
+            u8g2->drawXBMP(121, 40, 4, 7, image_ButtonLeft__copy__bits);
+            break;
+        case 2:
+            u8g2->drawXBMP(121, 53, 4, 7, image_ButtonLeft__copy__bits);
+            break;
+    }
+    u8g2->sendBuffer();
+    u8g2->setFont(u8g2_font_6x13_tr);
+}
+
+void IpodDisplay::EQMenu(char cmd) {
+    switch(cmd) {
+        case 'z':
+            EQMenuDraw();
+            break;
+        case 'b':
+            selected_menu = 2;
+            MenuInput('z');
+            break;
+        case 'd':
+            if(player->eq_select < 2) {
+                player->eq_select++;
+            }
+            EQMenuDraw();
+            break;    
+        case 'u':
+            if(player->eq_select > 0) {
+                player->eq_select--;
+            }
+            EQMenuDraw();
+            break;   
+        case 'n':
+            player->eq_settings[player->eq_select] = player->eq_settings[player->eq_select] + 0.1;
+            player->EQUpdate();
+            EQMenuDraw();
+            break;
+        case 'a':
+            player->eq_settings[player->eq_select] = player->eq_settings[player->eq_select] - 0.1;
+            player->EQUpdate();
+            EQMenuDraw();
             break;
     }
 }
