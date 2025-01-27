@@ -24,10 +24,10 @@ class IpodDisplay {
         int settings_menu_pos = 0;
         int eq_menu_pos = 0;
         int music_menu_pos = 0;
+        int prev_selected_menu = 0;
         int selected_menu = 0;
         int sel_pos = 6;
 
-        char *song_path;
         char *song_name;
         char *song_artist;
 

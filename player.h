@@ -9,15 +9,21 @@
 
 class IpodPlayer {
     public:
-        IpodPlayer();
+        IpodPlayer(IpodData & d_class);
         void ChangeVol();
         bool StreamAudio();
         void PlayPause();
         void Stop();
-        void Play(char *file);
+        void Play(int id);
+        void Shuflle(int song_count);
 
         bool is_playing = false;
+        char *song_path;
         int playing_song;
+
+        std::vector<int> random_song_ids;
+        char player_mode = 'n';
+        int suffle_id = 0;
 
         void SetupDac();
         void EQUpdate();
@@ -27,6 +33,8 @@ class IpodPlayer {
         
         
     private:
+        IpodData *data;
+
         void SetupPlayer();
 
         WM8960 dac;

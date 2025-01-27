@@ -1,6 +1,7 @@
 #include "player.h"
 
-IpodPlayer::IpodPlayer() : eq(i2s), decoder(&eq, new MP3DecoderHelix()), copier(i2s, eq) {
+IpodPlayer::IpodPlayer(IpodData & d_class) : eq(i2s), decoder(&eq, new MP3DecoderHelix()), copier(i2s, eq) {
+    data = &d_class;
     SetupPlayer();
 }
 
@@ -99,18 +100,38 @@ void IpodPlayer::Stop() {
     }
 }
 
-void IpodPlayer::Play(char *file) {
+void IpodPlayer::Play(int id) {
+    playing_song = id;
+    song_path = data->RequestItem(id, 'P');
     Stop();
-    audioFile = SD.open(file);
+    audioFile = SD.open(song_path);
     if(audioFile) {
-        is_playing = true;
+      decoder.begin();
+      i2s.begin();
+      dac.disableDacMute();
+      delay(100);
+      is_playing = true;
     }
     else {
         Serial.println("Error Opening audio file");
     }
-    decoder.begin();
-    i2s.begin();
-    dac.disableDacMute();
+    free(song_path);
+}
+
+void IpodPlayer::Shuflle(int song_count) {
+    random_song_ids.clear();
+
+    for(int i = 0; i < song_count; i++) {
+        random_song_ids.push_back(i);
+    }
+
+    for(int i = song_count; i > 0; i--) {
+        int j = random(i + 1);
+        int temp = random_song_ids[i];
+        random_song_ids[i] = random_song_ids[j];
+        random_song_ids[j] = temp;
+    }
+    player_mode = 's';
 }
 
 void IpodPlayer::EQUpdate() {
@@ -125,7 +146,6 @@ bool IpodPlayer::StreamAudio() {
     if(is_playing) {
         if(!copier.copy()) {
             return false;
-            //add player modes;
         }
         else{
             return true;

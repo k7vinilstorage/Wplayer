@@ -168,21 +168,36 @@ void IpodDisplay::MenuInput(char cmd) {
     else {
         if(selected_menu != 7 && (cmd == 'n' || cmd == 'a') && player->is_playing) {
             if(cmd == 'n') {
-                if(player->playing_song < data->song_count) {
-                    player->playing_song++;
-                    free(song_path);
-                    song_path = data->RequestItem(player->playing_song, 'P');
-                    player->Play(song_path);
-                    MenuInput('z');
+                if(player->player_mode == 's') {
+                    if(player->suffle_id < data->song_count) {
+                        player->suffle_id++;
+                        player->Play(player->random_song_ids[player->suffle_id]);
+                        MenuInput('z');
+                    }
+                }
+                else {
+                    if(player->playing_song < data->song_count) {
+                        player->playing_song++;
+                        player->Play(player->playing_song);
+                        MenuInput('z');
+                    }
                 }
             }
             else {
-                if(player->playing_song > 0) {
-                    player->playing_song--;
-                    free(song_path);
-                    song_path = data->RequestItem(player->playing_song, 'P');
-                    player->Play(song_path);
-                    MenuInput('z');
+                if(player->player_mode == 's') {
+                    if(player->suffle_id > 0) {
+                        player->suffle_id--;
+                        player->Play(player->random_song_ids[player->suffle_id]);
+                        MenuInput('z');
+                    }
+                }
+                else {
+                    if(player->playing_song > 0) {
+                        player->playing_song--;
+                        player->Play(player->playing_song);
+                        MenuInput('z');
+                    }
+
                 }
             }
         }
@@ -201,6 +216,11 @@ void IpodDisplay::MenuInput(char cmd) {
                     PlayMenu(cmd);
                     break;
                 case 4:
+                    player->Shuflle(data->song_count);
+                    player->Play(player->random_song_ids[0]);
+                    selected_menu = 3;
+                    prev_selected_menu = 0;
+                    MenuInput('z');
                     break;
                 case 5:
                     AboutMenu(cmd);
@@ -276,11 +296,10 @@ void IpodDisplay::MusicMenu(char cmd) {
             MusicMenuDraw();
             break;
         case 'e':
-            free(song_path);
-            player->playing_song = music_select;
-            song_path = data->RequestItem(music_select, 'P');
-            player->Play(song_path);
+            player->player_mode = 'n';
+            player->Play(music_select);
             selected_menu = 3;
+            prev_selected_menu = 1;
             MenuInput('z');
             break;
         case 'b':
@@ -319,7 +338,7 @@ void IpodDisplay::PlayMenu(char cmd) {
             PlayMenuDraw();
             break;
         case 'b':
-            selected_menu = 0;
+            selected_menu = prev_selected_menu;
             MenuInput('z');
             break;
         case 'u':
@@ -427,6 +446,7 @@ void IpodDisplay::EQMenu(char cmd) {
 
 void IpodDisplay::ChangeMainMenu() {
     selected_menu = main_menu_pos + 1;
+    prev_selected_menu = 0;
     MenuInput('z');
 }
 

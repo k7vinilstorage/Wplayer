@@ -4,7 +4,7 @@
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, 32, 33, U8X8_PIN_NONE);
 
 IpodData data;
-IpodPlayer player;
+IpodPlayer player(data);
 IpodInputs inputs;
 IpodDisplay display(u8g2, player, data);
 
@@ -48,5 +48,5 @@ void loop() {
     delay(10);
     input = inputs.DetecctInput();
     display.MenuInput(input);
-    Serial.println(esp_get_free_heap_size());
+    //Serial.println(esp_get_free_heap_size());
 }
