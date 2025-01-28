@@ -186,6 +186,14 @@ void IpodData::VolSave() {
   
 }
 
+void IpodData::EQSave() {
+  
+}
+
+void IpodData::MusicSave() {
+  
+}
+
 void IpodData::DeleteDatabase(){
     rc = sqlite3_exec(db, "DROP TABLE IF EXISTS MUSIC", 0, 0, &err_msg);
     if (rc != SQLITE_OK) {
