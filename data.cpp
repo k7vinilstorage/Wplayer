@@ -249,27 +249,6 @@ void IpodData::EQSave(float bass, float middle, float treble) {
     sqlite3_finalize(stmt);
 }
 
-
-void IpodData::MusicSave(int mus) {
-    const char *sql = "UPDATE CONFIG SET Mus = ? WHERE Id = 1;";
-    sqlite3_stmt *stmt;
-
-    rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
-    if (rc != SQLITE_OK) {
-        fprintf(stderr, "Failed to prepare statement: %s\n", sqlite3_errmsg(db));
-        return;
-    }
-
-    sqlite3_bind_int(stmt, 1, mus);
-
-    rc = sqlite3_step(stmt);
-    if (rc != SQLITE_DONE) {
-        fprintf(stderr, "Execution failed: %s\n", sqlite3_errmsg(db));
-    }
-
-    sqlite3_finalize(stmt);
-}
-
 float IpodData::GetVolume() {
     const char* query = "SELECT Vol FROM CONFIG WHERE id = 1";
     sqlite3_stmt* stmt;
@@ -294,33 +273,6 @@ float IpodData::GetVolume() {
         Serial.println("Record with ID = 1 not found");
         sqlite3_finalize(stmt);
         return -35.0f;  // Return -1 if the record doesn't exist
-    }
-}
-
-int IpodData::GetMus() {
-    const char* query = "SELECT Mus FROM CONFIG WHERE id = 1";
-    sqlite3_stmt* stmt;
-    int rc = sqlite3_prepare_v2(db, query, -1, &stmt, 0);
-    
-    if (rc != SQLITE_OK) {
-        // If preparing the SELECT statement fails, print the error
-        Serial.print("Failed to prepare SELECT statement: ");
-        Serial.println(sqlite3_errmsg(db));
-        return 1;  // Return -1 to indicate an error
-    }
-
-    // Execute the query
-    rc = sqlite3_step(stmt);
-    if (rc == SQLITE_ROW) {
-        // If the record with id = 1 is found, return the value of Vol
-        int mus = sqlite3_column_double(stmt, 0);  // Assuming Vol is in the first column
-        sqlite3_finalize(stmt);  // Clean up the prepared statement
-        return mus;
-    } else {
-        // If no record is found
-        Serial.println("Record with ID = 1 not found");
-        sqlite3_finalize(stmt);
-        return 1;  // Return -1 if the record doesn't exist
     }
 }
 

@@ -18,9 +18,7 @@ class IpodData {
         char *RequestItem(int id, char request);
         void VolSave(float vol);
         void EQSave(float bass, float middle, float treble);
-        void MusicSave(int mus);
         float GetVolume();
-        int GetMus();
         float GetTreble();
         float GetBass();
         float GetMiddle();

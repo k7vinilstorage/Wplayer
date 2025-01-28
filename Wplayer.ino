@@ -21,7 +21,6 @@ void setup() {
     player.SetupDac();
     player.vol = data.GetVolume();
     player.ChangeVol();
-    player.playing_song = data.GetMus();
     player.eq_settings[0] = data.GetBass();
     player.eq_settings[1] = data.GetMiddle();
     player.eq_settings[2] = data.GetTreble();

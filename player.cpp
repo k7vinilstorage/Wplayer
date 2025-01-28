@@ -124,7 +124,6 @@ void IpodPlayer::Play(int id) {
         Serial.println("Error Opening audio file");
     }
     free(song_path);
-    data->MusicSave(playing_song);
 }
 
 void IpodPlayer::Shuflle(int song_count) {
