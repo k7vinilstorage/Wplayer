@@ -345,12 +345,14 @@ void IpodDisplay::PlayMenu(char cmd) {
             MenuInput('z');
             break;
         case 'u':
-            player->vol++;
+            player->vol = player->vol + 2;
+            delay(5);
             player->ChangeVol();
             PlayMenuDraw();
             break;
         case 'd':
-            player->vol--;
+            player->vol = player->vol - 2;
+            delay(5);
             player->ChangeVol();
             PlayMenuDraw();
             break;
