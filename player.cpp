@@ -73,6 +73,7 @@ void IpodPlayer::ChangeVol() {
         vol = 0.00;
     }
     dac.setHeadphoneVolumeDB(vol);
+    deplay(10);
 }
 
 void IpodPlayer::PlayPause() {

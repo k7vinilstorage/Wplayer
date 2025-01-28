@@ -161,6 +161,9 @@ void IpodDisplay::SettingsMenu(char cmd) {
 }
 
 void IpodDisplay::MenuInput(char cmd) {
+    if(!data->sd_state) {
+      return;
+    }
     if(cmd == 'p') {
         player->PlayPause();
         MenuInput('z');
