@@ -59,6 +59,8 @@ void IpodData::UpDatabase(const char *dirname, uint8_t levels) {
 
 void IpodData::DbInit(const char *path) {
     const char *sql = "CREATE TABLE IF NOT EXISTS MUSIC(Id INTEGER PRIMARY KEY, Name TEXT, Artist TEXT, Album TEXT, Path TEXT);";
+    const char *sql2 = "CREATE TABLE IF NOT EXISTS CONFIG(Id INTEGER PRIMARY KEY, Vol FLOAT, Mus INT, Bass FLOAT, Middle FLOAT, Treble FLOAT);";
+    const char *sql3 = "INSERT INTO CONFIG VALUES (1, -35.00, 1, 1, 1, 1);";
 
     rc = sqlite3_open(path, &db);
     if(rc != SQLITE_OK) {
@@ -73,6 +75,21 @@ void IpodData::DbInit(const char *path) {
         sqlite3_free(err_msg);
         sqlite3_close(db);
     }
+
+    rc = sqlite3_exec(db, sql2, 0, 0, &err_msg);
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "SQL error: %    int count = 0;s\n", err_msg);
+        sqlite3_free(err_msg);
+        sqlite3_close(db);
+    }
+
+    rc = sqlite3_exec(db, sql3, 0, 0, &err_msg);
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "SQL error: %    int count = 0;s\n", err_msg);
+        sqlite3_free(err_msg);
+        sqlite3_close(db);
+    }
+
     CountSongs();
     for(int i = 0; i < song_count; i++) {
         songList.push_back(RequestItem(i, 'N'));
@@ -163,6 +180,10 @@ void IpodData::CountSongs() {
     }
 
     sqlite3_finalize(stmt);
+}
+
+void IpodData::VolSave() {
+  
 }
 
 void IpodData::DeleteDatabase(){
