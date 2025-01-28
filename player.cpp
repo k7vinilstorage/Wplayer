@@ -74,6 +74,7 @@ void IpodPlayer::ChangeVol() {
     }
     dac.setHeadphoneVolumeDB(vol);
     delay(10);
+    data->VolSave(vol);
 }
 
 void IpodPlayer::PlayPause() {
@@ -81,6 +82,9 @@ void IpodPlayer::PlayPause() {
         is_playing = false;
         dac.enableDacMute();
         i2s.end();
+    }
+    else if(never_played) {
+        Play(playing_song);
     }
     else {
         is_playing = true;
@@ -102,6 +106,9 @@ void IpodPlayer::Stop() {
 }
 
 void IpodPlayer::Play(int id) {
+    if(never_played) {
+        never_played = false;
+    }
     playing_song = id;
     song_path = data->RequestItem(id, 'P');
     Stop();
@@ -117,6 +124,7 @@ void IpodPlayer::Play(int id) {
         Serial.println("Error Opening audio file");
     }
     free(song_path);
+    data->MusicSave(playing_song);
 }
 
 void IpodPlayer::Shuflle(int song_count) {
@@ -141,6 +149,7 @@ void IpodPlayer::EQUpdate() {
     cfg_eq.gain_medium = eq_settings[1];
     cfg_eq.gain_high = eq_settings[2];
     eq.begin(cfg_eq);
+    data->EQSave(cfg_eq.gain_low, cfg_eq.gain_medium, cfg_eq.gain_high);
 }
 
 bool IpodPlayer::StreamAudio() {

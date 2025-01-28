@@ -17,6 +17,7 @@ class IpodPlayer {
         void Play(int id);
         void Shuflle(int song_count);
 
+        bool never_played = true;
         bool is_playing = false;
         char *song_path;
         int playing_song;

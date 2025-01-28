@@ -19,8 +19,13 @@ void setup() {
     data.SdInit();
     data.DbInit("/sd/music.db");
     player.SetupDac();
-    player.vol = -35.00;
+    player.vol = data.GetVolume();
     player.ChangeVol();
+    player.playing_song = data.GetMus();
+    player.eq_settings[0] = data.GetBass();
+    player.eq_settings[1] = data.GetMiddle();
+    player.eq_settings[2] = data.GetTreble();
+    player.EQUpdate();
     inputs.InitInputs();
     display.MenuInput('z');
 
@@ -28,8 +33,6 @@ void setup() {
 }
 
 void stream_task(void * pvParameters) {
-  // Serial.print("Task1 running on core ");
-  // Serial.println(xPortGetCoreID());
   
   for(;;){
     if(player.is_playing) {

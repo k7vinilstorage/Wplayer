@@ -16,9 +16,14 @@ class IpodData {
         void SdInit();
         void DbInit(const char *path);
         char *RequestItem(int id, char request);
-        void VolSave();
-        void EQSave();
-        void MusicSave();
+        void VolSave(float vol);
+        void EQSave(float bass, float middle, float treble);
+        void MusicSave(int mus);
+        float GetVolume();
+        int GetMus();
+        float GetTreble();
+        float GetBass();
+        float GetMiddle();
 
         std::vector<const char*> songList;
 
