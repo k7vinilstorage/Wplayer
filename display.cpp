@@ -248,6 +248,12 @@ void IpodDisplay::MenuInput(char cmd) {
             }
         }
     }
+    if(cmd == '0') {
+        DisplayTimeout();
+    }
+    else {
+        display_time = millis();
+    }
 }
 
 void IpodDisplay::MusicMenuDraw() {
@@ -458,4 +464,12 @@ void IpodDisplay::ChangeMainMenu() {
 void IpodDisplay::ChangeSettingsMenu() {
     selected_menu = settings_menu_pos + 5;
     MenuInput('z');
+}
+
+void IpodDisplay::DisplayTimeout() {
+    timing = millis();
+    if(timing > (display_time + 15000)) {
+        u8g2->clearBuffer();
+        u8g2->sendBuffer();
+    }
 }

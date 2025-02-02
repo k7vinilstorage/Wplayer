@@ -12,6 +12,7 @@ class IpodDisplay {
 
         void SetupDisplay();
         void MenuInput(char cmd);
+        void DisplayTimeout();
 
         int music_select = 0;
 
@@ -30,6 +31,9 @@ class IpodDisplay {
 
         char *song_name;
         char *song_artist;
+
+        unsigned long timing;
+        unsigned long display_time = 0;
 
         void SdStateDraw();
         void VolStateDraw();
