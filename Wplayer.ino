@@ -8,13 +8,13 @@ IpodPlayer player(data);
 IpodInputs inputs;
 IpodDisplay display(u8g2, player, data);
 
-TaskHandle_t stream;
-
 char input;
-
 
 void setup() {
     Serial.begin(115200);
+    esp_wifi_stop();
+    esp_wifi_deinit();
+    btStop();
     display.SetupDisplay();
     data.SdInit();
     data.DbInit("/sd/music.db");
@@ -28,7 +28,9 @@ void setup() {
     inputs.InitInputs();
     display.MenuInput('z');
 
-    xTaskCreatePinnedToCore(stream_task, "stream", 10000, NULL, 1, &stream,0); 
+    xTaskCreate(stream_task, "stream", 10000, NULL, 3, NULL); 
+    xTaskCreate(input_task, "InputTask", 4096, NULL, 2, NULL); 
+
 }
 
 void stream_task(void * pvParameters) {
@@ -46,9 +48,15 @@ void stream_task(void * pvParameters) {
   } 
 }
 
+void input_task(void * pvParameters){
+    for(;;) {
+      input = inputs.DetecctInput();
+      display.MenuInput(input);
+      //Serial.println(esp_get_free_heap_size());
+      vTaskDelay(10);
+    }
+}
+
 void loop() {
-    delay(10);
-    input = inputs.DetecctInput();
-    display.MenuInput(input);
-    //Serial.println(esp_get_free_heap_size());
+
 }
