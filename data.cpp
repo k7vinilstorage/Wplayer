@@ -2,6 +2,11 @@
 
 IpodData::IpodData() {}
 
+void IpodData::DataInit() {
+    SdInit();
+    DbInit("/sd/music.db");
+}
+
 void IpodData::SdInit() {
   if(!SD.begin()) {
         Serial.println("Error Starting SD");

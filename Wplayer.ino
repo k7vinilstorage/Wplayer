@@ -16,8 +16,7 @@ void setup() {
     esp_wifi_deinit();
     btStop();
     display.SetupDisplay();
-    data.SdInit();
-    data.DbInit("/sd/music.db");
+    data.DataInit();
     player.SetupDac();
     player.vol = data.GetVolume();
     player.ChangeVol();

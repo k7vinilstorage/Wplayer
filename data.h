@@ -11,10 +11,9 @@
 class IpodData {
     public:
         IpodData();
+        void DataInit();
         void UpDatabase(const char *dirname, uint8_t levels);
         void DeleteDatabase();
-        void SdInit();
-        void DbInit(const char *path);
         char *RequestItem(int id, char request);
         void VolSave(float vol);
         void EQSave(float bass, float middle, float treble);
@@ -22,20 +21,23 @@ class IpodData {
         float GetTreble();
         float GetBass();
         float GetMiddle();
-
+        
         std::vector<const char*> songList;
-
+        
         bool sd_state = false;
         float cardSize;
         float cardFree;
         int song_count = 0;
-
         
-    private:
+        
+        private:
         
         void AddItem(int id, const char *name, const char *artist, const char *album, const char *path);
         void CountSongs();
 
+        void SdInit();
+        void DbInit(const char *path);
+        
         sqlite3 *db;
         mp3_id3_tags tags;
         char *err_msg = 0;
