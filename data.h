@@ -34,9 +34,10 @@ class IpodData {
         
         void AddItem(int id, const char *name, const char *artist, const char *album, const char *path);
         void CountSongs();
-
+        
         void SdInit();
         void DbInit(const char *path);
+        
         
         sqlite3 *db;
         mp3_id3_tags tags;
@@ -45,7 +46,7 @@ class IpodData {
         char *song_name[15];
         char *song_artist[15];
         char *song_path[15];
-};
+    };
 
 
 #endif
