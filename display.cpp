@@ -160,6 +160,15 @@ void IpodDisplay::SettingsMenu(char cmd) {
     }
 }
 
+void IpodDisplay::UpDbScreen() {
+    u8g2->clearBuffer();
+    u8g2->setFontMode(1);
+    u8g2->setBitmapMode(1);
+    u8g2->drawXBMP(46, 8, 36, 29, image_Restoring_bits);
+    u8g2->drawXBMP(16, 45, 95, 11, update);
+    u8g2->sendBuffer();
+}
+
 void IpodDisplay::MenuInput(char cmd) {
     if(!data->sd_state) {
       return;
@@ -230,17 +239,13 @@ void IpodDisplay::MenuInput(char cmd) {
                     break;
                 case 6:
                     selected_menu = 2;
+                    //implement BT screen
                     break;
                 case 7:
                     EQMenu(cmd);
                     break;
                 case 8:
-                    u8g2->clearBuffer();
-                    u8g2->setFontMode(1);
-                    u8g2->setBitmapMode(1);
-                    u8g2->drawXBMP(46, 8, 36, 29, image_Restoring_bits);
-                    u8g2->drawXBMP(16, 45, 95, 11, update);
-                    u8g2->sendBuffer();
+                    UpDbScreen();
                     data->DeleteDatabase();
                     data->UpDatabase("/Music", 2);
                     ESP.restart();

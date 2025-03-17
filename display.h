@@ -36,6 +36,7 @@ class IpodDisplay {
         void PlayingIndicator();
         void SidebarDraw();
         void MainMenuDraw();
+        void UpDbScreen();
         void MainMenu(char cmd);
         void SettingsMenuDraw();
         void SettingsMenu(char cmd);
